@@ -105,7 +105,7 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
                            "are allowed to access this metric"),
         'd3format': utils.markdown(
             "d3 formatting string as defined [here]"
-            "(https://github.com/d3/d3-format/blob/master/README.md#format). "
+            "(https://github.com/d3/d3-format/blob/master/README_old.md#format). "
             "For instance, this default formatting applies in the Table "
             "visualization and allow for different metric to use different "
             "formats", True
