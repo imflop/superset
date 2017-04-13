@@ -51,12 +51,22 @@ class BaseViz(object):
         self.slice = slice_
         self.form_data = form_data
 
+
         self.query = ""
         self.token = self.form_data.get(
             'token', 'token_' + uuid.uuid4().hex[:8])
         self.metrics = self.form_data.get('metrics') or []
         self.groupby = self.form_data.get('groupby') or []
         self.groupby_defaults = self.form_data.get('groupby_defaults') or []
+        # if self.viz_type == "filter_box":
+        #     print("======================= BERFOR UPDATE =====================")
+        #     print(self.form_data)
+        #     print("======================= BERFOR UPDATE =====================")
+        #     self.groupby_defaults = self.form_data.get('groupby_defaults') or []
+        #     self.form_data.update({'groupby_defaults': self.groupby_defaults})
+        #     print("======================= CONSTRUCTOR========================")
+        #     print(self.form_data)
+        #     print("======================= CONSTRUCTOR========================")
 
         self.status = None
         self.error_message = None
@@ -114,9 +124,13 @@ class BaseViz(object):
         form_data = self.form_data
         groupby = form_data.get("groupby") or []
         metrics = form_data.get("metrics") or []
-        groupby_defaults0 = form_data.get("groupby_defaults") or []
-        groupby_defaults1 = self.groupby_defaults or []
-        groupby_defaults = ['1', '2']
+        groupby_defaults = []
+        if self.viz_type == "filter_box":
+            print("====================== QUERY OBJECT =======================")
+            groupby_defaults = form_data.get('groupby_defaults') \
+                               or ['East Asia & Pacific', 'American Samoa']
+            form_data.update({'groupby_defaults': groupby_defaults})
+            print(form_data)
 
         # extra_filters are temporary/contextual filters that are external
         # to the slice definition. We use those for dynamic interactive
@@ -1312,9 +1326,6 @@ class FilterBoxViz(BaseViz):
                 'metric': row[1]}
                 for row in df.itertuples(index=False)
             ]
-        print("0=========================================================0")
-        print(d)
-        print("0=========================================================0")
         return d
 
 
