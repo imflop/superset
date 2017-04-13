@@ -56,6 +56,7 @@ class BaseViz(object):
             'token', 'token_' + uuid.uuid4().hex[:8])
         self.metrics = self.form_data.get('metrics') or []
         self.groupby = self.form_data.get('groupby') or []
+        self.groupby_defaults = self.form_data.get('groupby_defaults') or []
 
         self.status = None
         self.error_message = None
@@ -113,6 +114,9 @@ class BaseViz(object):
         form_data = self.form_data
         groupby = form_data.get("groupby") or []
         metrics = form_data.get("metrics") or []
+        groupby_defaults0 = form_data.get("groupby_defaults") or []
+        groupby_defaults1 = self.groupby_defaults or []
+        groupby_defaults = ['1', '2']
 
         # extra_filters are temporary/contextual filters that are external
         # to the slice definition. We use those for dynamic interactive
@@ -179,6 +183,7 @@ class BaseViz(object):
             'extras': extras,
             'timeseries_limit_metric': timeseries_limit_metric,
             'form_data': form_data,
+            'groupby_defaults': groupby_defaults,
         }
         return d
 
@@ -1290,8 +1295,7 @@ class FilterBoxViz(BaseViz):
         groupby = self.form_data.get('groupby')
         if len(groupby) < 1 and not self.form_data.get('date_filter'):
             raise Exception("Pick at least one filter field")
-        qry['metrics'] = [
-            self.form_data['metric']]
+        qry['metrics'] = [self.form_data['metric']]
         return qry
 
     def get_data(self, df):
@@ -1308,6 +1312,9 @@ class FilterBoxViz(BaseViz):
                 'metric': row[1]}
                 for row in df.itertuples(index=False)
             ]
+        print("0=========================================================0")
+        print(d)
+        print("0=========================================================0")
         return d
 
 

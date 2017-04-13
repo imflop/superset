@@ -347,7 +347,8 @@ class SqlaTable(Model, BaseDatasource):
             orderby=None,
             extras=None,
             columns=None,
-            form_data=None):
+            form_data=None,
+            groupby_defaults=None):
         """Querying any sqla table from this common interface"""
 
         template_kwargs = {

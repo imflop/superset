@@ -185,6 +185,7 @@ class Slice(Model, AuditMixinNullable, ImportMixin):
         form_data['viz_type'] = self.viz_type
         form_data['datasource'] = (
             str(self.datasource_id) + '__' + self.datasource_type)
+        form_data['custom_field'] = '12345'
         return form_data
 
     @property
