@@ -12,6 +12,7 @@ import './filter_box.css';
 import { TIME_CHOICES } from './constants.js';
 
 const propTypes = {
+  defaultsValues: React.PropTypes.object,
   origSelectedValues: React.PropTypes.object,
   instantFiltering: React.PropTypes.bool,
   filtersChoices: React.PropTypes.object,
@@ -20,6 +21,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  defaultsValues: {},
   origSelectedValues: {},
   onChange: () => {},
   showDateFilter: false,
@@ -29,10 +31,22 @@ const defaultProps = {
 class FilterBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedValues: props.origSelectedValues,
-      hasChanged: false,
-    };
+    if (Object.keys(props.defaultsValues).length) {
+      this.state = {
+        selectedValues: props.defaultsValues,
+        hasChanged: false,
+      };
+      Object.keys(props.defaultsValues).forEach(key => {
+        if (!!props.defaultsValues[key]) {
+          this.props.onChange(key, props.defaultsValues[key], false, true);
+        }
+      });
+    } else {
+      this.state = {
+        selectedValues: props.origSelectedValues,
+        hasChanged: false,
+      };
+    }
   }
   clickApply() {
     this.props.onChange(Object.keys(this.state.selectedValues)[0], [], true, true);
@@ -139,8 +153,10 @@ function filterBox(slice, payload) {
   fd.groupby.forEach((f) => {
     filtersChoices[f] = payload.data[f];
   });
+  const defaultsValues = fd.groupby_defaults || {};
   ReactDOM.render(
     <FilterBox
+      defaultsValues={defaultsValues}
       filtersChoices={filtersChoices}
       onChange={slice.addFilter}
       showDateFilter={fd.date_filter}

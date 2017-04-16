@@ -605,6 +605,7 @@ const visTypes = {
         controlSetRows: [
           ['date_filter', 'instant_filtering'],
           ['groupby'],
+          ['groupby_defaults'],
           ['metric'],
         ],
       },

@@ -121,14 +121,19 @@ class BaseViz(object):
 
     def query_obj(self):
         """Building a query object"""
+        gd = {}
         form_data = self.form_data
         groupby = form_data.get("groupby") or []
         metrics = form_data.get("metrics") or []
         groupby_defaults = []
         if self.viz_type == "filter_box":
             print("====================== QUERY OBJECT =======================")
-            groupby_defaults = form_data.get('groupby_defaults') \
-                               or ['East Asia & Pacific', 'American Samoa']
+
+            gd = {
+                "region": ["Middle East & North Africa"],
+                "country_name": ["Iraq"]
+            }
+            groupby_defaults = form_data.get('groupby_defaults') or gd
             form_data.update({'groupby_defaults': groupby_defaults})
             print(form_data)
 
