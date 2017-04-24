@@ -978,6 +978,11 @@ class Superset(BaseSupersetView):
     def explore(self, datasource_type, datasource_id):
         form_data = self.get_form_data()
 
+        print("==================== GROUPBY ========================")
+        # print(form_data['groupby'])
+        print("==================== GROUPBY ========================")
+
+
         datasource_id = int(datasource_id)
         viz_type = form_data.get("viz_type")
         slice_id = form_data.get('slice_id')
@@ -994,9 +999,13 @@ class Superset(BaseSupersetView):
             .one()
         )
 
+        ds_columns = []
+
         if not datasource:
             flash(DATASOURCE_MISSING_ERR, "danger")
             return redirect(error_redirect)
+        else:
+            ds_columns = datasource.data['filterable_cols']
 
         if not self.datasource_access(datasource):
             flash(
@@ -1041,6 +1050,7 @@ class Superset(BaseSupersetView):
             "standalone": standalone,
             "user_id": user_id,
             "forced_height": request.args.get('height'),
+            "datasource_columns": ds_columns,
         }
         table_name = datasource.table_name \
             if datasource_type == 'table' \

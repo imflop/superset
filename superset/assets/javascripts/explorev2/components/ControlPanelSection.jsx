@@ -22,7 +22,7 @@ export default class ControlPanelSection extends React.Component {
     if (label) {
       header = (
         <div>
-          {label} &nbsp;
+          {label} &nbsp RENDER HEADER;
           {tooltip && <InfoTooltipWithTrigger label={label} tooltip={tooltip} />}
         </div>
       );

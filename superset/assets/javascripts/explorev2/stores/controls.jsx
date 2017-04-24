@@ -35,6 +35,7 @@ export const controls = {
     clearable: false,
     default: null,
     mapStateToProps: (state) => {
+      console.log(state.datasources);
       const datasources = state.datasources || [];
       return {
         choices: datasources,
@@ -47,9 +48,21 @@ export const controls = {
     description: '',
   },
 
+  datasource_columns: {
+    type: 'SelectControl',
+    label: 'Datasource Columns',
+    isLoading: true,
+    clearable: false,
+    default: null,
+    mapStateToProps: (state) => {
+      console.log(state.datasources);
+    },
+    description: 'This is custom field',
+  },
+
   viz_type: {
     type: 'SelectControl',
-    label: 'Visualization Type',
+    label: 'Visualization Type 123',
     clearable: false,
     default: 'table',
     choices: Object.keys(visTypes).map(vt => [
@@ -1194,10 +1207,20 @@ export const controls = {
   },
 
   slice_id: {
-    type: 'HiddenControl',
-    label: 'Slice ID',
-    hidden: true,
-    description: 'The id of the active slice',
+    type: 'SelectControl',
+    label: 'Datasource columns',
+    isLoading: true,
+    clearable: false,
+    default: 'table',
+    mapStateToProps: (state) => {
+      console.log(state.datasource_columns);
+      const datasources = state.datasource_columns || [];
+      return {
+        choices: datasources,
+        isLoading: datasources.length === 0,
+      };
+    },
+    description: 'Columns marks as default',
   },
 };
 export default controls;
