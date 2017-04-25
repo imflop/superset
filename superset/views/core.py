@@ -1000,6 +1000,7 @@ class Superset(BaseSupersetView):
         )
 
         ds_columns = []
+        datasource_columns_data = {}
 
         if not datasource:
             flash(DATASOURCE_MISSING_ERR, "danger")
@@ -1007,6 +1008,7 @@ class Superset(BaseSupersetView):
         else:
             for f in datasource.data['filterable_cols']:
                 ds_columns.append(list(f)[0])
+                datasource_columns_data[list(f)[0]] = datasource.values_for_column(list(f)[0])
 
         if not self.datasource_access(datasource):
             flash(
@@ -1052,6 +1054,7 @@ class Superset(BaseSupersetView):
             "user_id": user_id,
             "forced_height": request.args.get('height'),
             "datasource_columns": ds_columns,
+            "datasource_columns_data": datasource_columns_data,
         }
         table_name = datasource.table_name \
             if datasource_type == 'table' \
