@@ -1005,7 +1005,8 @@ class Superset(BaseSupersetView):
             flash(DATASOURCE_MISSING_ERR, "danger")
             return redirect(error_redirect)
         else:
-            ds_columns = datasource.data['filterable_cols']
+            for f in datasource.data['filterable_cols']:
+                ds_columns.append(list(f)[0])
 
         if not self.datasource_access(datasource):
             flash(
