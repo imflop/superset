@@ -35,6 +35,7 @@ export const controls = {
     clearable: false,
     default: null,
     mapStateToProps: (state) => {
+      // console.log(state.datasources);
       const datasources = state.datasources || [];
       return {
         choices: datasources,
@@ -52,12 +53,17 @@ export const controls = {
     label: 'Datasource Columns',
     isLoading: true,
     clearable: false,
-    default: 'table',
+    default: control => control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
+    // default: control => control.choices[0][0],
     mapStateToProps: (state) => {
-      const datasources = state.datasource_columns || [];
+      // const datasources = state.datasource_columns || [];
+      const datasourceColumns = Object.keys(state.datasource_columns).map(key => [
+        key,
+        state.datasource_columns[key]
+      ])
       return {
-        choices: datasources,
-        isLoading: datasources === 0,
+        choices: datasourceColumns,
+        isLoading: datasourceColumns === 0,
       }
     },
     description: 'Columns marks as default CUSTOM!!!',
@@ -74,7 +80,7 @@ export const controls = {
       // console.log(Object.keys(datasources));
       // console.log(Object.values(datasources));
       return {
-        choices: datasources,
+        choices: Object.keys(datasources).map(key => [key, datasources[key]]),
         isLoading: datasources.length === 0,
       };
     },
