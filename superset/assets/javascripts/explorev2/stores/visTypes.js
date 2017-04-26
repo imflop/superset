@@ -12,7 +12,8 @@ export const sections = {
     controlSetRows: [
       ['datasource'],
       ['viz_type'],
-      ['slice_id'],
+      ['datasource_columns'],
+      ['datasource_columns_data'],
     ],
   },
   sqlaTimeSeries: {
@@ -605,7 +606,6 @@ const visTypes = {
         controlSetRows: [
           ['date_filter', 'instant_filtering'],
           ['groupby'],
-          ['groupby_defaults'],
           ['metric'],
         ],
       },
