@@ -74,14 +74,17 @@ export const controls = {
     label: 'Datasource Columns Data',
     isLoading: true,
     clearable: false,
-    default: 'table',
+    default: control => control.choices && control.choices.length > 0 ? control.choices[0] : null,
     mapStateToProps: (state) => {
-      const datasources = state.datasource_columns_data || [];
-      // console.log(Object.keys(datasources));
-      // console.log(Object.values(datasources));
+      const datasourceColumnsData = state.datasource_columns_data || [];
+      console.log(datasourceColumnsData);
+      const arr = Object.keys(datasourceColumnsData).map(key => [key.toString(), datasourceColumnsData[key]]);
+      console.log(arr);
+      console.log(arr[0][1]);
       return {
-        choices: Object.keys(datasources).map(key => [key, datasources[key]]),
-        isLoading: datasources.length === 0,
+        // choices: Object.keys(datasourceColumnsData).map(key => [key.toString(), datasourceColumnsData[key]]),
+        choices: arr[0][1],
+        isLoading: datasourceColumnsData.length === 0,
       };
     },
     description: 'Data of columns CUSTOM!!!',
