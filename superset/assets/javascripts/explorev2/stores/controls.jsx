@@ -27,6 +27,12 @@ export const TIME_STAMP_OPTIONS = [
   ['%H:%M:%S', '%H:%M:%S | 01:32:10'],
 ];
 
+function handleSelectChange(d) {
+  console.log("handle -> ", d);
+  const arr = Object.keys(state.datasource_columns_data).map(key => state.datasource_columns_data[key]);
+  console.log(arr);
+};
+
 export const controls = {
   datasource: {
     type: 'SelectControl',
@@ -54,9 +60,7 @@ export const controls = {
     isLoading: true,
     clearable: false,
     default: control => control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
-    // default: control => control.choices[0][0],
     mapStateToProps: (state) => {
-      // const datasources = state.datasource_columns || [];
       const datasourceColumns = Object.keys(state.datasource_columns).map(key => [
         key,
         state.datasource_columns[key]
@@ -66,6 +70,7 @@ export const controls = {
         isLoading: datasourceColumns === 0,
       }
     },
+    onChange: control => handleSelectChange(control),
     description: 'Columns marks as default CUSTOM!!!',
   },
 
@@ -76,15 +81,13 @@ export const controls = {
     clearable: false,
     default: control => control.choices && control.choices.length > 0 ? control.choices[0] : null,
     mapStateToProps: (state) => {
-      const datasourceColumnsData = state.datasource_columns_data || [];
-      console.log(datasourceColumnsData);
+      const datasourceColumnsData = state.datasource_columns_data;
       const arr = Object.keys(datasourceColumnsData).map(key => [key.toString(), datasourceColumnsData[key]]);
-      console.log(arr);
-      console.log(arr[0][1]);
+      // console.log(arr[0][1]);
       return {
         // choices: Object.keys(datasourceColumnsData).map(key => [key.toString(), datasourceColumnsData[key]]),
         choices: arr[0][1],
-        isLoading: datasourceColumnsData.length === 0,
+        isLoading: arr.length === 0,
       };
     },
     description: 'Data of columns CUSTOM!!!',

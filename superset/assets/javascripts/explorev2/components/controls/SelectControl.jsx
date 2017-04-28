@@ -39,6 +39,7 @@ export default class SelectControl extends React.PureComponent {
     }
   }
   onChange(opt) {
+    console.log("select: -> ", opt);
     let optionValue = opt ? opt.value : null;
     // if multi, return options values as an array
     if (this.props.multi) {
